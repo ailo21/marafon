@@ -172,11 +172,8 @@ namespace Prypo.Controllers
 
                     await UserManager.UpdateAsync(user); 
                     #endregion
-
-
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                   
+                    
+                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);                   
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Отправка сообщения электронной почты с этой ссылкой

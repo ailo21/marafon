@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Prypo.Models;
+using System.Net.Mail;
+using Prypo.Properties;
 
 namespace Prypo
 {
@@ -18,7 +20,24 @@ namespace Prypo
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Подключите здесь службу электронной почты для отправки сообщения электронной почты.
+            // настройка логина, пароля отправителя
+            var from = Settings.SmtpEmail;
+            var pass = Settings.SmtpPassword;
+
+            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+            SmtpClient client = new SmtpClient(Settings.SmtpSmtp, Settings.SmtpPort);
+
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(from, pass);
+            client.EnableSsl = true;
+
+            // создаем письмо: message.Destination - адрес получателя
+            var mail = new MailMessage(from, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+
             return Task.FromResult(0);
         }
     }
