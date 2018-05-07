@@ -6,8 +6,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\_publish\marafon</_PublishTargetUrl>
-    <EncryptedPassword />
+    <_PublishTargetUrl>ftp://www.run.somee.com/d:\DZHosts\LocalUser\ailo21\www.run.somee.com</_PublishTargetUrl>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA5bD3sm23SEe01VnjCs/v/AAAAAACAAAAAAAQZgAAAAEAACAAAACJPoxi0kfBmQPGjaIN2Wow5lKq+CFwnPNsmgyXpxeypwAAAAAOgAAAAAIAACAAAADuLm0XXk6Yr9yTkk642KSqIbNM5yd6ufeBYw2hKV0T7SAAAABgeBUAyNLaDVZyn2OKW2HlxhxfbcCyPcJVloi2OUNOY0AAAAArIkdVIbj3sLKPIx3pGRbM4/SaejGJNTer9vTPRDi4cC70XxHnHAdJt1oc1MBf0csOkLd1kD1snAt/s2ePR3bs</EncryptedPassword>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">

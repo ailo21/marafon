@@ -227,6 +227,20 @@ namespace Prypo.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
+
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account",
+                    new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                //await UserManager.SendEmailAsync(user.Id, "Сброс пароля",
+                //    "Для сброса пароля, перейдите по ссылке <a href=\"" + callbackUrl + "\">сбросить</a>");
+
+                await UserManager.SendEmailAsync(user.Id, "Сброс пароля",
+                    "Для сброса пароля, перейдите по ссылке " + callbackUrl );
+
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Отправка сообщения электронной почты с этой ссылкой
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);

@@ -8,8 +8,8 @@ namespace Prypo.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
-        [Authorize]
+        // GET: Admin        
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             ViewBag.Message = "test";

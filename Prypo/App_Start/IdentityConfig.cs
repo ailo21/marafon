@@ -20,25 +20,27 @@ namespace Prypo
     {
         public Task SendAsync(IdentityMessage message)
         {
-            //// настройка логина, пароля отправителя
-            //var from = Settings.SmtpEmail;
-            //var pass = Settings.SmtpPassword;
+            // настройка логина, пароля отправителя
+            var from = Settings.SmtpEmail;
+            var pass = Settings.SmtpPassword;
 
-            //// адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
-            //SmtpClient client = new SmtpClient(Settings.SmtpSmtp, Settings.SmtpPort);
+            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+            SmtpClient client = new SmtpClient(Settings.SmtpSmtp, Settings.SmtpPort);
 
-            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //client.UseDefaultCredentials = false;
-            //client.Credentials = new System.Net.NetworkCredential(from, pass);
-            //client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(from, pass);
+            client.EnableSsl = true;
 
-            //// создаем письмо: message.Destination - адрес получателя
-            //var mail = new MailMessage(from, message.Destination);
-            //mail.Subject = message.Subject;
-            //mail.Body = message.Body;
-            //mail.IsBodyHtml = true;
+            // создаем письмо: message.Destination - адрес получателя
+            var mail = new MailMessage(from, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+
+            return client.SendMailAsync(mail);
             // Подключите здесь службу электронной почты для отправки сообщения электронной почты.
-            return Task.FromResult(0);
+            //return Task.FromResult(0);
         }
     }
 
