@@ -12,6 +12,8 @@ namespace Prypo.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
+
+
             ViewBag.Message = "test";
             return View();
         }
