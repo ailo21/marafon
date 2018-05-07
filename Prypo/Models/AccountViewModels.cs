@@ -7,7 +7,7 @@ namespace Prypo.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
     }
 
@@ -43,14 +43,14 @@ namespace Prypo.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "E-mail")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -67,7 +67,7 @@ namespace Prypo.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         #region дополнительные
@@ -113,7 +113,7 @@ namespace Prypo.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required]
