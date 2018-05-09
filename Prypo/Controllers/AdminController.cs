@@ -28,7 +28,7 @@ namespace Prypo.Controllers
             ViewBag.Message = "test";
             return View(model);
         }
-        [HttpPost]
+        [HttpPost]        
         [MultiButton(MatchFormKey = "action", MatchFormValue = "insert-btn")]
         public ActionResult EventInsert()
         {
@@ -44,9 +44,11 @@ namespace Prypo.Controllers
             return View(model);
         }
         [HttpPost]
+        [ValidateInput(false)]
         [MultiButton(MatchFormKey = "action", MatchFormValue = "save-btn")]
-        public ActionResult Event(EventsViewModel back_model)
+        public ActionResult Event(Guid id, EventsViewModel back_model)
         {
+            back_model.EventsItem.Id = id;
             if (ModelState.IsValid)
             {
                 _Repository.InsertEvent(back_model.EventsItem);
