@@ -1,10 +1,10 @@
-﻿@model  EventsViewModel
+﻿@model  Prypo.Models.EventsViewModel
 @{
     ViewBag.Title = "Редактор событий";
 }
 <h1>Админпанель</h1>
 <div class="well well-sm">
-@using (Html.BeginForm("index", "admin",  FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("index", "admin",  FormMethod.Post))
 {
     <div class="btn-group">
         <button type="submit" name="action" value="insert-btn" class="btn btn-success" ><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить событие</button>        
