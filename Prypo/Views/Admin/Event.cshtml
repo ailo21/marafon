@@ -1,0 +1,40 @@
+﻿@model  EventsViewModel
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("event", "admin", FormMethod.Post, new { @class = "defaults" }))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="well well-sm">
+        <div class="btn-group">
+            <button type="submit" name="action" value="save-btn" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Сохранить</button>
+            <button type="submit" name="action" value="save-btn" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Назад</button>
+            @if (Model.EventsItem != null)
+            {
+                <button type="submit" name="action" value="delete_event-btn" class="btn btn-danger" data-action="delete"><span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</button>
+            }            
+        </div>
+    </div>
+
+    <div class="well well-lg">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.EventsItem.Title, new { @class = "uc_input", @title = "Название" })
+                <div class="form-group">
+                    <label>Текст:</label>
+                    @Html.TextAreaFor(m => m.EventsItem.Text, new { @id = "eventstext", @type = "editor" })
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
+                @Html.TextBoxFor(m => m.EventsItem.Alias, new { @class = "uc_input", @title = "Алиас" })
+                @Html.TextBoxFor(m => m.EventsItem.Date, new { @class = "uc_input", @title = "Начало", @type="date" })
+                <div class="checkbox">
+                    <label>@Html.CheckBoxFor(m => m.EventsItem.Disabled) @Html.LabelFor(m=>m.EventsItem.Disabled)</label>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}
+
+
+
+

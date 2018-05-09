@@ -33,3 +33,6 @@ div#birthday_years .input-group-addon {
     text-align: center;
     line-height: 32px;
 }
+.defaults input,
+.defaults select,
+.defaults textarea{max-width:100%;}

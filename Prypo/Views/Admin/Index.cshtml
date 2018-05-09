@@ -1,3 +1,25 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@model  EventsViewModel
+@{
+    ViewBag.Title = "Редактор событий";
 }
+<h1>Админпанель</h1>
+<div class="well well-sm">
+@using (Html.BeginForm("index", "admin",  FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="btn-group">
+        <button type="submit" name="action" value="insert-btn" class="btn btn-success" ><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить событие</button>        
+    </div>
+}   
+</div>
+<div class="panel-group">
+    @if (Model.ListEvents != null && Model.ListEvents.Items != null)
+    {
+        foreach (var item in Model.ListEvents.Items)
+        {            
+                <div class="panel panel-default">
+                    <div class="panel-heading"><a href="/admin/events/@item.Id">@item.Title</a></div>
+                    <div class="panel-body">Panel Content</div>
+                </div>
+        }
+    }
+</div>
