@@ -48,13 +48,53 @@ namespace Prypo.Controllers
         [MultiButton(MatchFormKey = "action", MatchFormValue = "save-btn")]
         public ActionResult Event(Guid id, EventsViewModel back_model)
         {
+            ErrorMessage message = new ErrorMessage
+            {
+                Title = "Информация"
+            };
+
             back_model.EventsItem.Id = id;
             if (ModelState.IsValid)
             {
-                _Repository.InsertEvent(back_model.EventsItem);
+                if (_Repository.ExistEvent(id))
+                {
+                    //сохраняем
+                    _Repository.UpdateEvent(back_model.EventsItem);
+                    message.Info = "Запись обновлена";
+                }
+                else
+                {
+                    //создаем
+                    _Repository.InsertEvent(back_model.EventsItem);
+                    message.Info = "Запись добавлена";
+                }
+                message.Buttons = new ErrorMessageBtnModel[]
+                {
+                    new ErrorMessageBtnModel { Url = "/admin", Text = "вернуться в список" },
+                    new ErrorMessageBtnModel { Url = "/admin/event/"+id, Text = "ок", Action = "false" }
+                };
             }
-                
+            model.EventsItem = _Repository.GetEventItem(id);
+            model.ErrorInfo = message;
             return View(model);
         }
+
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "delete_event-btn")]
+        public ActionResult DeleteEvent(Guid id)
+        {
+            if (_Repository.DeleteEvent(id))
+               return Redirect("/admin/");
+            else return Redirect($"/admin/event/{id}");
+        }
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "cancel-btn")]
+        public ActionResult Cancel()
+        {
+            return Redirect(StartUrl);
+        }
+
     }
 }

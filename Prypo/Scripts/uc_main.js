@@ -24,7 +24,7 @@ $(document).ready(function () {
     }
 
     //События Кнопок
-    $('input[type=submit], .button').bind({
+    $('input[type=submit],button[type=submit], .button').bind({
         mousedown: function () {
             //логика всплывающих окон
             var Action = $(this).attr('data-action');
@@ -82,8 +82,18 @@ $(document).ready(function () {
 });
 function InitTinyMCE(id) {
     tinymce.init({
-        selector: "textarea#" + id,
+        selector: "textarea#" + id,        
         language: "ru",
+        height: 350,
+        theme: 'modern',
+        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+        image_advtab: true,   
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css'
+        ]
+
     });
 }
 // Инициализация текстовых полей
@@ -123,11 +133,14 @@ function ucInput_init() {
         }
 
         if (Type == 'date') {
-            $(this).attr('value', $(this).attr('value').replace(/(\d+).(\d+).(\d+) (\d+:\d+:\d+)/, '$1.$2.$3'));
-            Mask = "99.99.9999";
-            $(this).datepicker({ onSelect: function (dateText, inst) { $(this).attr('value', dateText); } });
-        }
 
+            $(this).datetimepicker({
+                format: 'DD.MM.YYYY'
+            });
+        }
+        if (Type === 'datetime') {
+            $(this).datetimepicker();
+        }
 
         if (Mask != undefined) $(this).mask(Mask);
     });

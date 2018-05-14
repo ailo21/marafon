@@ -22,7 +22,7 @@ namespace Prypo.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            StartUrl = (String)RouteData.Values["controller"] + "/";
+            StartUrl = "/"+(String)RouteData.Values["controller"] + "/";
         }
         public CoreController()
         {

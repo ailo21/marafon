@@ -108,6 +108,42 @@ namespace Dbase
                   .Insert() > 0;
             }            
         }
+        public bool UpdateEvent(EventsModel ev)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                using (var tr = db.BeginTransaction()) {
+                    db.Events.Where(w => w.Id==ev.Id)                        
+                      .Set(p => p.CTitle, ev.Title)
+                      .Set(p => p.CAlias, ev.Alias)
+                      .Set(p => p.CText, ev.Text)
+                      .Set(p => p.BDisabled, ev.Disabled)
+                      .Set(p => p.DDate, ev.Date)
+                      .Update();
+                    tr.Commit();
+                    return true;
+                }                   
+            }
+        }
+        /// <summary>
+        /// определяет существует ли такое событие
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool ExistEvent(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Events.Where(w => w.Id == id).Any();
+            }
+        }
+        public bool DeleteEvent(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Events.Where(w => w.Id == id).Delete() > 0;
+            }
+        }
 
     }
 }

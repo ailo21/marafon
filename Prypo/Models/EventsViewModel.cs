@@ -6,7 +6,7 @@ using Dbase.entity;
 
 namespace Prypo.Models
 {
-    public class EventsViewModel
+    public class EventsViewModel: CoreViewModel
     {
         public Paged<EventsModel> ListEvents{get;set;}
         public EventsModel EventsItem { get; set; }

@@ -5,8 +5,8 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="well well-sm">
         <div class="btn-group">
-            <button type="submit" name="action" value="save-btn" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Сохранить</button>
-            <button type="submit" name="action" value="save-btn" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Назад</button>
+            <button type="submit" name="action" value="save-btn" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Сохранить</button>            
+            <button type="submit" name="action" value="cancel-btn" class="btn btn-primary" data-action="cancel"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Назад</button>
             @if (Model.EventsItem != null)
             {
                 <button type="submit" name="action" value="delete_event-btn" class="btn btn-danger" data-action="delete"><span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</button>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
                 @Html.TextBoxFor(m => m.EventsItem.Alias, new { @class = "uc_input", @title = "Алиас" })
-                @Html.TextBoxFor(m => m.EventsItem.Date, new { @class = "uc_input", @title = "Начало", @type="date" })
+                @Html.TextBoxFor(m => m.EventsItem.Date, new { @class = "uc_input", @title = "Начало", @data_type = "date" })
                 <div class="checkbox">
                     <label>@Html.CheckBoxFor(m => m.EventsItem.Disabled) @Html.LabelFor(m=>m.EventsItem.Disabled)</label>
                 </div>
@@ -35,6 +35,9 @@
     </div>
 }
 
+<div class="message-block">
+    @Html.Partial("part/modal")
+</div>
 
 
 
