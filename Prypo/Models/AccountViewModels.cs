@@ -109,6 +109,35 @@ namespace Prypo.Models
         public string ConfirmPassword { get; set; }
     }
 
+
+    public class EditModel
+    {
+        [Required]
+        [Display(Name = "Фамилия")]
+        public string LastName { get; set; }
+        /// <summary>
+        /// Имя
+        /// </summary>
+        [Required]
+        [Display(Name = "Имя")]
+        public string FirstName { get; set; }
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        [Display(Name = "Отчество")]
+        public string Patronymic { get; set; }
+        [Required]
+        [Display(Name = "Дата рождения")]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Пол")]
+        public string Gender { get; set; }
+
+    }
+
+
+
     public class ResetPasswordViewModel
     {
         [Required]

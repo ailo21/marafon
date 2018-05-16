@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Prypo.Models;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading;
 
 namespace Prypo.Controllers
 {
@@ -187,6 +188,66 @@ namespace Prypo.Controllers
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+            return View(model);
+        }
+
+        public async Task<ActionResult> Edit()
+        {
+            //Get the current claims principal
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+
+
+            if (user != null)
+            {
+                EditModel model = new EditModel {
+                    LastName = user.Claims.Where(w=>w.ClaimType== "LastName").Select(s=>s.ClaimValue).FirstOrDefault(),
+                    FirstName = user.Claims.Where(w => w.ClaimType == "FirstName").Select(s => s.ClaimValue).FirstOrDefault(),
+                    Patronymic = user.Claims.Where(w => w.ClaimType == "Patronymic").Select(s => s.ClaimValue).FirstOrDefault(),
+                    BirthDate =Convert.ToDateTime(user.Claims.Where(w => w.ClaimType == "BirthDate").Select(s => s.ClaimValue).FirstOrDefault()),
+                    Gender = user.Claims.Where(w => w.ClaimType == "Gender").Select(s => s.ClaimValue).FirstOrDefault()
+                };
+                return View(model);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditModel model)
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                
+                // check for existing claim and remove it
+                //var existingClaim = identity.FindFirst("LastName");
+                //if (existingClaim != null)
+                //{
+                //    RemoveClaim(currentPrincipal, "LastName", user);
+                //}
+                ////t.RemoveClaim(new Claim("FirstName",""));
+                //t.AddClaim(new Claim("FirstName", model.FirstName));
+
+                user.Claims.Add(new IdentityUserClaim { ClaimType = "LastName", ClaimValue = model.LastName });
+                //model.FirstName
+
+                //IdentityResult result = await UserManager.UpdateAsync(user);
+                //if (result.Succeeded)
+                //{
+                //    return RedirectToAction("Index", "Home");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Что-то пошло не так");
+                //}
+            }
+            else
+            {
+                ModelState.AddModelError("", "Пользователь не найден");
+            }
+
             return View(model);
         }
 

@@ -1,0 +1,13 @@
+﻿@model Prypo.Models.EditModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h2>Редактировать данные профиля</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.TextBoxFor(m=>m.FirstName,new { @class= "uc_input" })
+    <input type="submit" value="Сохранить" />
+}
