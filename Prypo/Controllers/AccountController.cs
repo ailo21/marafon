@@ -60,6 +60,8 @@ namespace Prypo.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if(User.Identity.IsAuthenticated) return HttpNotFound();
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -141,8 +143,9 @@ namespace Prypo.Controllers
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
-        {            
-            return View();
+        {
+           if(User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
+           else return View();
         }
 
         //
@@ -154,7 +157,15 @@ namespace Prypo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, };
+                var user = new ApplicationUser {
+                                UserName = model.Email,
+                                Email = model.Email,
+                                LastName=model.LastName,
+                                FirstName=model.FirstName,
+                                Patronymic=model.Patronymic,
+                                BirthDate=model.BirthDate,
+                                Gender=model.Gender                                
+                };
 
 
                 
@@ -163,17 +174,6 @@ namespace Prypo.Controllers
                 {
                     // если создание прошло успешно, то добавляем роль пользователя
                     await UserManager.AddToRoleAsync(user.Id, "user");
-
-                    #region claim                    
-                    user.Claims.Add(new IdentityUserClaim {ClaimType= "LastName",ClaimValue=model.LastName });
-                    user.Claims.Add(new IdentityUserClaim { ClaimType = "FirstName", ClaimValue = model.FirstName });
-                    user.Claims.Add(new IdentityUserClaim { ClaimType = "Patronymic", ClaimValue = model.Patronymic });
-                    user.Claims.Add(new IdentityUserClaim { ClaimType = "BirthDate", ClaimValue = model.BirthDate.ToString() });
-                    user.Claims.Add(new IdentityUserClaim { ClaimType = "Gender", ClaimValue = model.Gender });
-
-                    await UserManager.UpdateAsync(user); 
-                    #endregion
-                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);                   
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
