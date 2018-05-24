@@ -96,5 +96,24 @@ namespace Prypo.Controllers
             return Redirect(StartUrl);
         }
 
+
+        #region page        
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "insert-page")]
+        public ActionResult PageInsert()
+        {
+            string query = HttpUtility.UrlDecode(Request.Url.Query);
+            //query = AddFilterParam(query, "page", String.Empty);
+
+            return Redirect(StartUrl + "page/" + Guid.NewGuid() + "/" + query);
+        }
+
+        [HttpGet]
+        public ActionResult Page(Guid id)
+        {            
+            return View(model);
+        }
+        #endregion
+
     }
 }
