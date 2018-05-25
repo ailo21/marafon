@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="DbRepository.cs" />
     <Compile Include="entity\EventsModel.cs" />
+    <Compile Include="entity\PageModel.cs" />
     <Compile Include="entity\services\FilterModel.cs" />
     <Compile Include="entity\services\Paged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

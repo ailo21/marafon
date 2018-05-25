@@ -144,6 +144,96 @@ namespace Dbase
                 return db.Events.Where(w => w.Id == id).Delete() > 0;
             }
         }
+        
 
+        public PageModel GetPageItem(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Pages.Where(w => w.Id == id)
+                         .Select(s => new PageModel {
+                             Alias=s.CAlias,
+                             Disabled=s.BDisabled,
+                             Id=s.Id,
+                             ParentEventId=s.FParentEvent,
+                             Sort=s.NSort,
+                             Text=s.CText,
+                             Title=s.CTitle                            
+                         }).SingleOrDefault();
+            }
+        }
+        public PageModel[] GetPageList(Guid ParentEventId, bool? Disabled) {
+            using (var db = new CMSdb(_context))
+            {
+                var q = db.Pages.Where(w => w.FParentEvent == ParentEventId);
+                if (q.Any())
+                {
+                    return q.Select(s => new PageModel()
+                     {
+                         Id = s.Id,
+                         Title = s.CTitle,
+                         Alias = s.CAlias
+                     }).ToArray();
+                }
+                return null;
+                        
+            }
+        }
+        public bool ExistPage(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Pages.Where(w => w.Id == id).Any();
+            }
+        }
+        public bool InsertPage(PageModel page)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                //элемент сортировки
+                var q = db.Pages.Where(w => w.FParentEvent == page.ParentEventId);
+                int NextSort = (q.Any())?q.Select(s=>s.NSort).Max():0;
+                
+                return db.Pages
+                  .Value(p => p.Id, page.Id)
+                  .Value(p => p.FParentEvent, page.ParentEventId)
+                  .Value(p => p.CTitle, page.Title)
+                  .Value(p => p.CAlias, page.Alias)
+                  .Value(p => p.CText, page.Text)
+                  .Value(p => p.BDisabled, page.Disabled)
+                  .Value(p => p.NSort, NextSort++)
+                  .Insert() > 0;
+            }
+        }
+        public bool UpdatePage(PageModel page)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                using (var tr = db.BeginTransaction())
+                {
+                    db.Pages.Where(w => w.Id == page.Id)
+                      .Set(p => p.CTitle, page.Title)
+                      .Set(p => p.CAlias, page.Alias)
+                      .Set(p => p.CText, page.Text)
+                      .Set(p => p.BDisabled, page.Disabled)                      
+                      .Update();
+                    tr.Commit();
+                    return true;
+                }
+            }
+        }
+        public bool DeletePage(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Pages.Where(w => w.Id == id).Delete() > 0;
+            }
+        }
+        public Guid GetParentEventId(Guid PageId) {
+            using (var db = new CMSdb(_context))
+            {
+                return db.Pages.Where(w => w.Id == PageId).Select(s => s.FParentEvent).SingleOrDefault();
+            }
+        }
     }
 }

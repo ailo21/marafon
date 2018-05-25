@@ -35,6 +35,14 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Страницы</h4>
+                        @if (Model.PageList != null)
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <a href="/admin/page/@item.Id">@item.Title</a>
+
+                            }
+                        }
                         <hr />
                         <button type="submit" name="action" value="insert-page" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить</button>        
                     </div>

@@ -41,6 +41,7 @@ namespace Prypo.Controllers
         public ActionResult Event(Guid id)
         {
             model.EventsItem = _Repository.GetEventItem(id);
+            model.PageList = _Repository.GetPageList(id,null);
             return View(model);
         }
         [HttpPost]
@@ -100,18 +101,78 @@ namespace Prypo.Controllers
         #region page        
         [HttpPost]
         [MultiButton(MatchFormKey = "action", MatchFormValue = "insert-page")]
-        public ActionResult PageInsert()
+        public ActionResult PageInsert(Guid id)
         {
             string query = HttpUtility.UrlDecode(Request.Url.Query);
-            //query = AddFilterParam(query, "page", String.Empty);
+            query = AddFilterParam(query, "parent", id.ToString());
 
             return Redirect(StartUrl + "page/" + Guid.NewGuid() + "/" + query);
         }
 
         [HttpGet]
         public ActionResult Page(Guid id)
-        {            
+        {
+            model.Page = _Repository.GetPageItem(id);
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "page-save-btn")]
+        public ActionResult Page(Guid id, EventsViewModel back_model)
+        {
+            ErrorMessage message = new ErrorMessage
+            {
+                Title = "Информация"
+            };
+            back_model.Page.Id = id;
+            if (ModelState.IsValid)
+            {
+                if (_Repository.ExistPage(id))
+                {
+                    _Repository.UpdatePage(back_model.Page);
+                    message.Info = "Запись обновлена";
+                }
+                else
+                {
+                    #region идентификатор родителя
+                    var urlString = ((System.Web.HttpRequestWrapper)Request).UrlReferrer.OriginalString;
+                    Uri uri = new Uri(urlString);
+                    string queryString = uri.Query;
+                    Guid Parent = Guid.Parse(System.Web.HttpUtility.ParseQueryString(queryString).Get("parent"));
+                    back_model.Page.ParentEventId = Parent; 
+                    #endregion
+
+                    _Repository.InsertPage(back_model.Page);
+                    message.Info = "Запись добавлена";
+                }
+                message.Buttons = new ErrorMessageBtnModel[]
+                {
+                    new ErrorMessageBtnModel { Url = "/admin", Text = "вернуться в список" },
+                    new ErrorMessageBtnModel { Url = "/admin/event/"+id, Text = "ок", Action = "false" }
+                };
+            }
+            model.EventsItem = _Repository.GetEventItem(id);
+            model.ErrorInfo = message;
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "page-delete-btn")]
+        public ActionResult DeletePAge(Guid id)
+        {
+            if (_Repository.DeletePage(id))
+                return Redirect("/admin/");
+            else return Redirect($"/admin/event/{id}");
+        }
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "page-cancel-btn")]
+        public ActionResult CancelPage(Guid id)
+        {
+            string newurl= String.Format("/admin/event/{0}", _Repository.GetParentEventId(id));
+            return Redirect(StartUrl);
         }
         #endregion
 
