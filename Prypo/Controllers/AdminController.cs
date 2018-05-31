@@ -176,5 +176,24 @@ namespace Prypo.Controllers
         }
         #endregion
 
+
+        #region subevent
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "subevent-page")]
+        public ActionResult SubEventInsert(Guid id)
+        {
+            string query = HttpUtility.UrlDecode(Request.Url.Query);
+            query = AddFilterParam(query, "parent", id.ToString());
+
+            return Redirect(StartUrl + "subevent/" + Guid.NewGuid() + "/" + query);
+        }
+        [HttpGet]
+        public ActionResult SubEvent(Guid id)
+        {
+            //model.Page = _Repository.GetPageItem(id);
+            return View(model);
+        }
+
+        #endregion
     }
 }

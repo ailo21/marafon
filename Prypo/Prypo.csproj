@@ -449,6 +449,7 @@
     <Content Include="Views\Shared\part\Modal.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Admin\Page.cshtml" />
+    <Content Include="Views\Admin\SubEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

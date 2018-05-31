@@ -22,6 +22,16 @@
                     <label>Текст:</label>
                     @Html.TextAreaFor(m => m.EventsItem.Text, new { @id = "eventstext", @type = "editor" })
                 </div>
+
+                
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Подсобытия</h4>
+                        <button type="submit" name="action" value="subevent-page" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить</button>        
+                    </div>                    
+                </div>
+                
+
             </div>
             <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
                 @Html.TextBoxFor(m => m.EventsItem.Alias, new { @class = "uc_input", @title = "Алиас" })
@@ -37,11 +47,12 @@
                         <h4>Страницы</h4>
                         @if (Model.PageList != null)
                         {
-                            foreach (var item in Model.PageList)
-                            {
-                                <a href="/admin/page/@item.Id">@item.Title</a>
-
-                            }
+                            <ul>
+                                @foreach (var item in Model.PageList)
+                                {
+                                    <li><a href="/admin/page/@item.Id">@item.Title</a></li>                                
+                                }
+                            </ul>
                         }
                         <hr />
                         <button type="submit" name="action" value="insert-page" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить</button>        
