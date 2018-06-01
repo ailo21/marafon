@@ -45,5 +45,9 @@ namespace Dbase.entity
         /// стоимость участия
         /// </summary>
         public decimal Pay { get; set; }
+        /// <summary>
+        /// признак скрытости
+        /// </summary>
+        public bool Disabled { get; set; }
     }
 }

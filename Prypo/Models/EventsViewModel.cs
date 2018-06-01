@@ -10,7 +10,11 @@ namespace Prypo.Models
     {
         public Paged<EventsModel> ListEvents{get;set;}
         public EventsModel EventsItem { get; set; }
+
         public PageModel Page { get; set; }
         public PageModel[] PageList { get; set; }
+
+        public SubEventModel[] ListSubEvent { get; set; }
+        public SubEventModel SubEvent { get; set; }
     }
 }

@@ -1,1 +1,29 @@
-﻿
+﻿@model  Prypo.Models.EventsViewModel
+@using (Html.BeginForm("page", "admin", FormMethod.Post, new { @class = "defaults" }))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="well well-sm">
+        <div class="btn-group">
+            <button type="submit" name="action" value="page-save-btn" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Сохранить</button>
+            <button type="submit" name="action" value="page-cancel-btn" class="btn btn-primary" data-action="cancel"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Назад</button>
+            @if (Model.SubEvent != null)
+            {
+                <button type="submit" name="action" value="page-delete-btn" class="btn btn-danger" data-action="delete"><span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</button>
+            }
+        </div>
+    </div>
+    <div class="well well-lg">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.Page.Title, new { @class = "uc_input", @title = "Название" })
+            </div>
+            <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
+                <div class="checkbox">
+                    <label>@Html.CheckBoxFor(m => m.SubEvent.Disabled) Скрытый</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
