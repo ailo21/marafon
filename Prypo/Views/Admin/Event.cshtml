@@ -27,6 +27,13 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Подсобытия</h4>
+                        @if (Model.ListSubEvent != null)
+                        {
+                            foreach (var item in Model.ListSubEvent)
+                            {
+                                <a href="/admin/subevents/@item.Id">@item.Title</a>
+                            }
+                        }
                         <button type="submit" name="action" value="subevent-page" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Добавить</button>        
                     </div>                    
                 </div>

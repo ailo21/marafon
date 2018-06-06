@@ -19,6 +19,15 @@ namespace Dbase.entity
         [Display(Name = "Опубликован")]
         public bool Disabled { get; set; }    
         public SubEventModel[] SubEvent{ get; set; }
+
+        /// <summary>
+        /// Начало регистрации
+        /// </summary>
+        public DateTime DateStartReg { get; set; }
+        /// <summary>
+        /// Конец регистрации
+        /// </summary>
+        public DateTime DateEndReg { get; set; }
     }
 
     public class SubEventModel
@@ -32,15 +41,8 @@ namespace Dbase.entity
         /// <summary>
         /// Время начала события
         /// </summary>
-        public DateTime Date { get; set; }
-        /// <summary>
-        /// Начало регистрации
-        /// </summary>
-        public DateTime DateStartReg { get; set; }
-        /// <summary>
-        /// Конец регистрации
-        /// </summary>
-        public DateTime DateEndReg { get; set; }
+        public DateTime DateStart { get; set; }
+      
         /// <summary>
         /// стоимость участия
         /// </summary>

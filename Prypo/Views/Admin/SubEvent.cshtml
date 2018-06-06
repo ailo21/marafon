@@ -16,9 +16,32 @@
     <div class="well well-lg">
         <div class="row">
             <div class="col-xs-12 col-sm-9">
-                @Html.TextBoxFor(m => m.Page.Title, new { @class = "uc_input", @title = "Название" })
+                @Html.TextBoxFor(m => m.SubEvent.Title, new { @class = "uc_input", @title = "Название" })
+                <div class="form-group">
+                    <label>Текст:</label>
+                    @Html.TextAreaFor(m => m.SubEvent.Text, new { @id = "eventstext", @type = "editor" })
+                </div>
             </div>
             <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
+                @Html.TextBoxFor(m => m.SubEvent.Alias, new { @class = "uc_input", @title = "Алиас" })                
+                @Html.TextBoxFor(m => m.SubEvent.DateStart, new { @class = "uc_input", @title = "Старт", @data_type = "date" })
+                
+
+
+                <div class="form-group">
+                    <label>Стоимость</label>
+                    <div class="input-group">                        
+                        <span class="input-group-addon">₽</span>
+                        @Html.TextBoxFor(m => m.SubEvent.Pay, new { @class = "form-control", @title = "Стоимость" })                        
+                        <span class="input-group-addon">.00</span>
+                    </div>
+                </div>
+                
+
+
+                
+
+
                 <div class="checkbox">
                     <label>@Html.CheckBoxFor(m => m.SubEvent.Disabled) Скрытый</label>
                 </div>

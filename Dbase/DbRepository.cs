@@ -235,5 +235,75 @@ namespace Dbase
                 return db.Pages.Where(w => w.Id == PageId).Select(s => s.FParentEvent).SingleOrDefault();
             }
         }
+
+
+        
+        public SubEventModel GetSubEventItem(Guid id) {
+            using (var db = new CMSdb(_context))
+            {
+                var q = db.SubEvents.Where(w => w.Id == id);
+                if (q.Any())
+                {
+                    return q.Select(s => new SubEventModel {
+                        Alias=s.CAlias,
+                        DateStart=s.DDate,
+                        Disabled=s.BDisabled,
+                        Id=s.Id,
+                        Pay=s.CPay,
+                        Text=s.CText,
+                        Title=s.CTitle
+                    }).Single();
+                }
+                return null;
+            }
+        }
+        public SubEventModel[] GetSubEventList(Guid EventId)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                var q = db.SubEvents.Where(w => w.FEvent == EventId);
+                if (q.Any())
+                {
+                    return q.Select(s => new SubEventModel()
+                    {
+                        Alias = s.CAlias,
+                        DateStart = s.DDate,
+                        Disabled = s.BDisabled,
+                        Id = s.Id,
+                        Pay = s.CPay,
+                        Text = s.CText,
+                        Title = s.CTitle
+                    }).ToArray();
+                }
+                return null;
+            }
+        }
+        public bool ExistSubEvent(Guid id)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                return db.SubEvents.Where(w => w.Id == id).Any();
+            }
+        }
+        public bool InsertSeubEvent(SubEventModel ins)
+        {
+            using (var db = new CMSdb(_context))
+            {
+                using (var tr = db.BeginTransaction())
+                {
+                    var q = db.SubEvents
+                                .Value(p => p.BDisabled, ins.Disabled)
+                                .Value(p => p.CAlias, ins.Alias)
+                                .Value(p => p.CTitle, ins.Alias)
+                                .Value(p => p.CText, ins.Text)
+#warning !!!
+                                .Value(p => p.CPay, ins.Pay)                                
+                                .Value(p => p.CAlias, ins.Alias)
+                                .Insert();
+                }
+            }
+            return false;
+        }
+
     }
 }
